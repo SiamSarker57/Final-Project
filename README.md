@@ -12,6 +12,7 @@
 - [Tech Stack](#tech-stack)
 - [Quick Start](#quick-start)
 - [Project Structure](#project-structure)
+- [Pages & Features](#pages--features)
 - [Backend Setup](#backend-setup)
 - [Frontend Setup](#frontend-setup)
 - [API Documentation](#api-documentation)
@@ -29,6 +30,7 @@
 - **Threat Intelligence**: Analyzes package metadata and code patterns
 - **LLM-Assisted Remediation**: Provides AI-generated security recommendations via DeepSeek API
 - **Multi-Format Support**: Analyzes packages from requirements.txt, package.json, PDFs, and more
+- **ML Prediction Engine**: Real-time risk scoring and batch predictions
 
 ### Problem Statement
 Open-source package ecosystems (PyPI, npm, etc.) are vulnerable to malicious packages that can compromise entire supply chains. Traditional vulnerability scanning tools often miss behavioral anomalies and lack automated remediation suggestions.
@@ -39,6 +41,7 @@ SCALA-Guard uses machine learning and large language models to:
 2. **Analyze** package characteristics and dependencies
 3. **Generate** remediation strategies automatically
 4. **Report** findings through an intuitive dashboard
+5. **Predict** threat levels with ML models in real-time
 
 ---
 
@@ -49,17 +52,21 @@ SCALA-Guard uses machine learning and large language models to:
 - ✅ **Batch Analysis**: Scan entire requirements/dependencies files
 - ✅ **ML-Based Risk Scoring**: Random Forest classifier with real-time predictions
 - ✅ **AI Remediation**: DeepSeek LLM integration for smart recommendations
+- ✅ **ML Prediction API**: Single & batch prediction endpoints for numeric features
 - ✅ **Scan History**: Persistent storage of all analysis results
 - ✅ **RESTful API**: Complete endpoint coverage with Postman collection
 - ✅ **Health Checks**: Built-in monitoring and diagnostics
 
 ### Frontend (React + TypeScript + Vite)
 - ✅ **Interactive Dashboard**: Real-time threat visualization
-- ✅ **File Upload**: Drag-and-drop interface for packages
+- ✅ **Scanner Page**: Upload packages for analysis
+- ✅ **Prediction Page**: Submit numeric features for ML predictions
+- ✅ **Batch Audit**: Analyze multiple packages at once
 - ✅ **Scan History**: Browse and manage previous analyses
 - ✅ **Risk Visualization**: Color-coded threat levels
 - ✅ **Remediation Suggestions**: Display AI-generated fixes
 - ✅ **Performance Optimized**: Vite for fast development and builds
+- ✅ **Responsive Design**: Mobile-friendly interface
 
 ---
 
@@ -68,12 +75,12 @@ SCALA-Guard uses machine learning and large language models to:
 ```
 ┌─────────────────────────────────────────────────────┐
 │           React Frontend (Port 5173)                │
-│  - Dashboard, Upload, History, Analytics UI        │
+│  - Dashboard, Scanner, Prediction, History, UI    │
 └────────────────────┬────────────────────────────────┘
                      │ HTTP/REST
 ┌────────────────────▼────────────────────────────────┐
 │         FastAPI Backend (Port 8000)                 │
-│  - Package Analysis, ML Scoring, LLM Remediation   │
+│  - Package Analysis, ML Prediction, Remediation    │
 └────────────┬──────────────────────────┬─────────────┘
              │                          │
     ┌────────▼─────────┐    ┌──────────▼──────────┐
@@ -83,10 +90,10 @@ SCALA-Guard uses machine learning and large language models to:
 ```
 
 **Data Flow**:
-1. User uploads package or enters name → Frontend
-2. Frontend sends to Backend API
-3. Backend analyzes package structure & behavior
-4. ML model scores risk level
+1. User selects action (Scan, Predict, Batch) → Frontend
+2. Frontend sends data to appropriate Backend API
+3. Backend analyzes or predicts
+4. ML model scores risk level / predictions
 5. If threatened, LLM generates remediation
 6. Results stored in history
 7. Dashboard displays analysis
@@ -185,16 +192,18 @@ Thesis_or_Project/
 │   ├── tsconfig.json
 │   ├── src/
 │   │   ├── App.tsx
+│   │   ├── MainLayout/
+│   │   │   ├── MainLayout.tsx
+│   │   │   └── Navbar.tsx            # Navigation with all pages
 │   │   ├── components/
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── FileUpload.tsx
-│   │   │   ├── ScanHistory.tsx
-│   │   │   ├── RiskVisualization.tsx
-│   │   │   └── RemediationPanel.tsx
-│   │   ├── pages/
-│   │   │   ├── HomePage.tsx
-│   │   │   ├── AnalysisPage.tsx
-│   │   │   └── HistoryPage.tsx
+│   │   │   ├── Home.tsx              # Landing page
+│   │   │   ├── Scanner.tsx           # Package scanning
+│   │   │   ├── Prediction.tsx        # ML predictions ⭐ NEW
+│   │   │   ├── BatchAudit.tsx        # Batch analysis
+│   │   │   ├── Dashboard.tsx         # Analytics dashboard
+│   │   │   ├── History.tsx           # Scan history
+│   │   │   ├── RiskVisualization.tsx # Threat display
+│   │   │   └── RemediationPanel.tsx  # AI recommendations
 │   │   ├── services/
 │   │   │   └── api.ts               # Backend API calls
 │   │   └── styles/
@@ -206,12 +215,61 @@ Thesis_or_Project/
 
 ---
 
+## 📄 Pages & Features
+
+### 🏠 Home Page
+- Project overview and introduction
+- Quick links to main features
+- Statistics and system status
+
+### 🔍 Scanner Page
+- Upload package files (ZIP, TAR, PDF, DOCX, etc.)
+- Analyze by package name
+- Real-time threat detection
+- Remediation suggestions
+
+### 🎯 Prediction Page ⭐ **NEW**
+- **Single Prediction**: Submit numeric features for ML risk scoring
+- **Batch Prediction**: Upload CSV for multiple predictions
+- **Feature Support**: Handles numeric values, strings, booleans, and special values
+- **Flexible Input**:
+  - Manual feature entry
+  - CSV file upload
+  - JSON feature arrays
+- **Results Display**:
+  - Prediction labels
+  - Confidence scores
+  - Feature statistics
+  - Batch processing summary
+
+### 📦 Batch Audit Page
+- Scan entire dependency files (requirements.txt, package.json)
+- CSV file imports
+- Bulk processing
+- Comprehensive reports
+
+### 📊 Dashboard Page
+- Real-time analytics
+- Risk distribution charts
+- Scan statistics
+- Performance metrics
+
+### 📜 History Page
+- View all previous scans
+- Filter and sort results
+- Export analysis reports
+- Delete scans
+
+---
+
 ## 🔧 Backend Setup
 
 ### Full Backend Documentation
 See [Scala-backend/README.md](./Scala-backend/README.md) for detailed information.
 
 ### API Endpoints
+
+#### Package Analysis Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -227,8 +285,17 @@ See [Scala-backend/README.md](./Scala-backend/README.md) for detailed informatio
 | DELETE | `/history/{scan_id}` | Delete scan |
 | DELETE | `/history` | Clear all history |
 
+#### ML Prediction Endpoints ⭐ **NEW**
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/predict` | Single or batch predictions with numeric features |
+| POST | `/api/predict/csv` | Upload CSV file for row-wise predictions |
+| GET | `/api/predict/health` | Check prediction model status |
+
 ### Example API Calls
 
+#### Package Analysis
 ```bash
 # Analyze by package name
 curl -X POST http://localhost:8000/analyze/name \
@@ -248,6 +315,34 @@ curl http://localhost:8000/history
 
 # View statistics
 curl http://localhost:8000/stats
+```
+
+#### ML Predictions ⭐ **NEW**
+```bash
+# Single prediction with numeric features
+curl -X POST http://localhost:8000/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "values": [10.5, 20, 15.3, 0, 100]
+  }'
+
+# Batch predictions with multiple rows
+curl -X POST http://localhost:8000/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "features": [
+      [10, 20, 15],
+      [5, 10, 8],
+      [100, 200, 150]
+    ]
+  }'
+
+# Upload CSV for predictions
+curl -X POST http://localhost:8000/api/predict/csv \
+  -F "file=@predictions.csv"
+
+# Check prediction model status
+curl http://localhost:8000/api/predict/health
 ```
 
 ---
@@ -307,12 +402,32 @@ curl -X POST http://localhost:8000/analyze \
 curl http://localhost:8000/stats | jq .
 ```
 
+### Example 5: Get ML Predictions ⭐ **NEW**
+```bash
+# Submit features for prediction
+curl -X POST http://localhost:8000/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "values": [42.5, 100, 75, 1, 0]
+  }' | jq .
+
+# Response:
+# {
+#   "label": "high_risk",
+#   "risk_score": 0.87,
+#   "confidence": 0.92,
+#   "received_features": 5,
+#   "used_features": 5
+# }
+```
+
 ---
 
 ## 🔐 Security Considerations
 
 - **API Key Management**: Store DeepSeek API keys in environment variables
 - **File Upload Limits**: Maximum 20MB per file
+- **Feature Validation**: ML prediction validates numeric inputs
 - **Rate Limiting**: Consider implementing for production
 - **Data Privacy**: Scan history stored locally; no data sent externally
 - **Sandboxing**: Use Docker/strace for production deployments
@@ -402,6 +517,7 @@ We welcome contributions! Please:
 - DeepSeek API integration requires valid API key
 - Large batch files (>20MB) not supported
 - PDF/DOCX extraction is best-effort
+- ML predictions require numeric input features
 
 ### Future Enhancements
 - [ ] Support for more ecosystems (Ruby, Go, Rust)
@@ -410,6 +526,8 @@ We welcome contributions! Please:
 - [ ] Advanced visualization dashboards
 - [ ] Mobile app support
 - [ ] Multi-language support
+- [ ] Model performance metrics page
+- [ ] Feature importance visualization
 
 ---
 
@@ -454,8 +572,15 @@ If you use SCALA-Guard in your research, please cite:
 3. Create user-friendly interface for security analysis
 4. Provide comprehensive threat intelligence reporting
 5. Support multiple package ecosystems
+6. Implement real-time ML prediction capabilities
 
 **Status**: 🚀 In Active Development
+
+**Latest Updates**:
+- ✅ Added ML Prediction Page and API endpoints
+- ✅ Enhanced frontend routing and navigation
+- ✅ Integrated batch prediction support
+- ✅ Improved feature handling and validation
 
 ---
 
@@ -465,12 +590,14 @@ If you use SCALA-Guard in your research, please cite:
 - Scikit-learn for ML capabilities
 - React & Vite for frontend tooling
 - DeepSeek for LLM API
+- Lucide icons for beautiful UI components
+- React Router for seamless navigation
 - Open-source community for inspiration
 
 ---
 
 **Last Updated**: April 24, 2026  
-**Version**: 2.0.0 (Beta)
+**Version**: 2.1.0 (Beta) - With ML Prediction Features
 
 ---
 
