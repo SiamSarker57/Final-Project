@@ -712,42 +712,7 @@ The convergence creates a uniquely valuable capstone project that:
 - ✅ Develops career-relevant skills (full-stack, ML, security, LLM)
 - ✅ Contributes to open-source ecosystem health
 
-**Path Forward**
-
-Through the remaining chapters, we will explore:
-
-- **Chapter 2**: System Architecture & Design
-  - Detailed component design
-  - Data flow diagrams
-  - Technology choices with rationale
-
-- **Chapter 3**: Implementation Details
-  - Backend API design
-  - ML pipeline development
-  - Frontend UI/UX
-
-- **Chapter 4**: Experimental Evaluation
-  - Dataset creation & annotation
-  - Model training & validation
-  - Accuracy, precision, recall, F1-score
-  - Comparison with baselines
-
-- **Chapter 5**: Research Contributions & Results
-  - Hybrid feature fusion effectiveness
-  - Explainability techniques & evaluation
-  - LLM remediation quality benchmark
-
-- **Chapter 6**: Deployment & Production Readiness
-  - Containerization & orchestration
-  - Security hardening
-  - Performance optimization
-  - CI/CD integration strategies
-
-- **Chapter 7**: Conclusion & Future Work
-  - Key achievements
-  - Limitations & challenges
-  - Potential extensions (supply chain graph analysis, behavioral fingerprinting, etc.)
-
+ 
 **Final Thought**
 
 In an era where package ecosystem attacks are becoming increasingly sophisticated, SCALA-Guard provides the security intelligence needed to protect modern software supply chains. By making behavioral threat detection, explainability, and remediation accessible to developers and enterprises, we contribute to building a more secure, trustworthy open-source ecosystem.
